@@ -1,0 +1,16 @@
+{
+  "name": "gql-server",
+  "version": "1.0.0",
+  "description": "This project's sole purpose is to practice graphql with node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Paul Luna",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.4.2"
+  }
+}

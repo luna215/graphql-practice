@@ -1,5 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server');
 const cors = require('cors');
+const Champion = require('./champion');
 
 const books = [
   {
@@ -14,15 +15,27 @@ const books = [
   },
 ];
 
+const champions = [
+  new Champion('Ashe', 100),
+  new Champion('Vayne', 200)
+]
+
 const typeDefs = gql`
   type Book {
     title: String
     author: String
     pages: Int
   }
+
+  type Champion {
+    name: String
+    attackDamage: Float
+  }
+
   type Query {
     getBooks: [Book]
     hello: String
+    getChampions: [Champion]
   }
 `;
 
@@ -32,7 +45,8 @@ const resolvers = {
     getBooks: () => books,
     hello: () => {
       return 'Hello, world'
-    }
+    },
+    getChampions: () => champions,
   }
 };
 

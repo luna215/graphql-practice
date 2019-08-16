@@ -1,18 +1,42 @@
-var express = require('express');
-var express_graphql = require('express-graphql');
-var { buildSchema } = require('graphql');// GraphQL schema
-var schema = buildSchema(`
-    type Query {
-        message: String
+const { ApolloServer, gql } = require('apollo-server');
+
+const books = [
+  {
+    title: 'Harry Potter and the Chamber of Secrets',
+    author: 'J.K. Rowling',
+    pages: 1231321
+  },
+  {
+    title: 'Jurassic Park',
+    author: 'Michael Crichton',
+    pages: 1
+  },
+];
+
+const typeDefs = gql`
+  type Book {
+    title: String
+    author: String
+    pages: Int
+  }
+  type Query {
+    getBooks: [Book]
+    hello: String
+  }
+`;
+
+// Resolvers handle where the data comes from
+const resolvers = {
+  Query: {
+    getBooks: () => books,
+    hello: () => {
+      return 'Hello, world'
     }
-`);// Root resolver
-var root = {
-  message: () => 'Hello World!'
-};// Create an express server and a GraphQL endpoint
-var app = express();
-app.use('/graphql', express_graphql({
-  schema: schema,
-  rootValue: root,
-  graphiql: true
-}));
-app.listen(4000, () => console.log('Express GraphQL Server Now Running On localhost:4000/graphql'));
+  }
+};
+
+const server = new ApolloServer({ typeDefs, resolvers });
+
+server.listen().then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
+})
